@@ -11,10 +11,6 @@ interface FileIconProps {
   expanded: boolean;
 }
 
-type FolderTreeProps = {
-  onSelectFile: (selectedFile: string) => void;
-};
-
 function FileIcon({ name, isFolder, expanded }: FileIconProps) {
   if (name.endsWith("package.json")) {
     return <NpmIcon size={14} />;
@@ -51,13 +47,7 @@ function FileIcon({ name, isFolder, expanded }: FileIconProps) {
   return null;
 }
 
-const FolderTree = ({ onSelectFile }: FolderTreeProps) => {
-  const handleSelect = (node: any) => {
-    if (!node.children) {
-      // Check if it's a file
-      onSelectFile(node.value); // Call the passed function
-    }
-  };
+const FolderTree = () => {
   function Leaf({
     node,
     expanded,
@@ -65,7 +55,7 @@ const FolderTree = ({ onSelectFile }: FolderTreeProps) => {
     elementProps,
   }: RenderTreeNodePayload) {
     return (
-      <Group gap={5} {...elementProps} onClick={() => handleSelect(node)}>
+      <Group gap={5} {...elementProps}>
         <FileIcon
           name={node.value}
           isFolder={hasChildren}

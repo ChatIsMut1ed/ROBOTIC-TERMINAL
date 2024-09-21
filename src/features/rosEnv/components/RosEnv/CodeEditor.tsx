@@ -21,10 +21,6 @@ const CodeEditor = () => {
     editorRef.current?.focus();
   }, [fileName]);
 
-  const handleFileSelect = (selectedFile: string) => {
-    setFileName(selectedFile as FileName);
-  };
-
   return (
     <Paper withBorder>
       <Box className={classes.editorHeader} p={"xs"}>
@@ -32,7 +28,7 @@ const CodeEditor = () => {
           <Title order={6} mb={"md"}>
             OORB-STUDIO
           </Title>
-          <FolderTree onSelectFile={handleFileSelect} />
+          <FolderTree />
         </Box>
         <Box className={classes.editorContainer}>
           <Group gap={"md"} mb={"xs"}>

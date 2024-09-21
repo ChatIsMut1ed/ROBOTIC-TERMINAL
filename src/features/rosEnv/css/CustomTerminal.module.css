@@ -1,0 +1,59 @@
+.terminalWrapper {
+  background-color: #1e1e1e; /* Dark background for terminal */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.outputContainer {
+  padding: 10px;
+  border-bottom: 1px solid #16bbc4; /* Blue separator */
+}
+
+.output {
+  color: #c5c5c5; /* Light gray for text */
+  font-family: 'Monaco', monospace;
+  white-space: pre-wrap; /* Maintain whitespace */
+}
+
+.terminalLine {
+  margin: 0; /* Remove margin for terminal lines */
+}
+
+.lineText {
+ font-family: 'Monaco', monospace;
+}
+
+.inputForm {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #1e1e1e; /* Input background */
+}
+
+.terminalInput {
+  flex-grow: 1; /* Make input fill the available space */
+  color: #ffffff !important; /* Ensure text color is white */
+  background: transparent; /* No background */
+  border: none; /* No border */
+  outline: none; /* No outline */
+  padding: 3px; /* Padding inside the input */
+  font-family: 'Monaco', monospace; /* Monospace font for input */
+}
+
+.terminalInput::placeholder {
+  color: #ffffff; /* Placeholder text color */
+}
+
+.terminalInput:focus {
+  color: #ffffff; /* Maintain white text color when focused */
+}
+.command {
+  color: #16bbc4; /* Command color (blue) */
+  font-family: 'Monaco', monospace;
+}
+
+.response {
+  color: #c5c5c5; /* Response color (light gray) */
+  font-family: 'Monaco', monospace;
+}
