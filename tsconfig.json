@@ -12,6 +12,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@test-utils": ["./test-utils"],
+      "@/*": ["src/*"]
+    },
 
     /* Linting */
     "strict": true,

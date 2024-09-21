@@ -1,0 +1,32 @@
+/* Terminal Starts */
+
+.terminalHeader {
+  background-color: #e8e8e8;
+}
+
+.terminalContainer {
+  height: 400px;
+}
+
+/* Terminal Ends */
+
+/* Editor Start */
+
+.editorHeader {
+  background-color: #e8e8e8;
+  height: 500px;
+  display: flex
+}
+
+.editorFolderContainer {
+  width: 20%;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.editorContainer {
+  width: 80%;
+  padding-left: 10px
+}
+
+/* Editor Ends */

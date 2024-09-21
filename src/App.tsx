@@ -1,7 +1,41 @@
 import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
-import { theme } from "./theme";
+import { Route, Routes } from "react-router-dom";
+import useAuth from "./global/hooks/useAuth";
+import useScrollToTop from "./global/hooks/useScrollToTop";
+import routes from "./routes/app.routes";
+import AuthLayout from "./components/layouts/AuthLayout";
 
 export default function App() {
-  return <MantineProvider theme={theme}>App</MantineProvider>;
+  useScrollToTop();
+  const { authState } = useAuth();
+
+  const adminRoutes = routes.filter((route) => route.layout === "private");
+  const guestRoutes = routes.filter((route) => route.layout === "guest");
+
+  return (
+    <Routes>
+      {!authState.isLoggedIn && (
+        <Route element={<AuthLayout />}>
+          {guestRoutes.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<route.component />}
+            />
+          ))}
+        </Route>
+      )}
+      {authState.isLoggedIn && (
+        <Route element={<AuthLayout />}>
+          {adminRoutes.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<route.component />}
+            />
+          ))}
+        </Route>
+      )}
+    </Routes>
+  );
 }
