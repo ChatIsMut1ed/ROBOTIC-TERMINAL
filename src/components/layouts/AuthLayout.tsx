@@ -10,7 +10,11 @@ export default function AuthLayout() {
         <AppHeader />
       </AppShell.Header>
       <AppShell.Main>
-        <div>
+        <div
+          style={{
+            backgroundColor: "white",
+          }}
+        >
           <Outlet />
         </div>
         <AppFooter />

@@ -1,28 +1,26 @@
 .inner {
   display: flex;
-  justify-content: space-between;
-  padding-top: calc(var(--mantine-spacing-xl) * 4);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 4);
+  justify-content: space-around;
+  padding-top: calc(var(--mantine-spacing-xl) * 2);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
   padding-left: calc(var(--mantine-spacing-md) * 2);
   padding-right: calc(var(--mantine-spacing-md) * 2);
   position: relative; /* Ensure positioning context */
   border: 1px solid #000; /* Solid border color */
-  border-radius: var(--mantine-radius-md); /* Optional: add rounded corners */
+  border-radius: 0; /* Optional: add rounded corners */
   background: white; /* Background color of the inner div */
 }
 
 .shadow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--mantine-radius-md);
-    border-bottom: 5px solid black;
-    border-right: 5px solid black;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  border-bottom: 5px solid black;
+  border-right: 5px solid black;
 }
-
-
 
 .content {
   max-width: rem(480px);
@@ -37,11 +35,10 @@
 .title {
   color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
   font-family:
-    Greycliff CF,
     var(--mantine-font-family);
-  font-size: rem(44px);
+  font-size: rem(80px);
   line-height: 1.2;
-  font-weight: 900;
+  font-weight: 700;
 
   @media (max-width: $mantine-breakpoint-xs) {
     font-size: rem(28px);
@@ -49,14 +46,16 @@
 }
 
 .control {
+  border: 1px solid #000;
+  border-bottom: 2px solid #000;
   @media (max-width: $mantine-breakpoint-xs) {
     flex: 1;
   }
 }
 
 .image {
-  width: rem(376px);
-  height: rem(356px);
+  width: rem(400px);
+  height: rem(500px);
 
   @media (max-width: $mantine-breakpoint-md) {
     display: none;
@@ -68,4 +67,23 @@
   background-color: var(--mantine-color-blue-light);
   border-radius: var(--mantine-radius-sm);
   padding: rem(4px) rem(12px);
+}
+
+.highlightText {
+ color: #16bbc4;
+ font-size: rem(80px);
+}
+
+/* Badge styling */
+.badge {
+  position: absolute;
+  top: 10px; /* Adjust positioning as necessary */
+  left: 10px; /* Adjust positioning as necessary */
+  z-index: 1;
+  border: 1px solid #000;
+}
+
+/* Buttons placed at the bottom of the card */
+.actions {
+  
 }

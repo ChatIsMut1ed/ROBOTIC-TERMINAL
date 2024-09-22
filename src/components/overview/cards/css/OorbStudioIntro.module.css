@@ -1,0 +1,46 @@
+.container {
+  padding: calc(var(--mantine-spacing-xl) * 2);
+  background-color: #080808;
+  margin-top: calc(var(--mantine-spacing-xl) * 4);
+  margin-left: var(--mantine-spacing-xs);
+  margin-right: var(--mantine-spacing-xs);
+  border: 2px solid #5fcad0;
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.textContent {
+  max-width: rem(600px); /* Limit the width of the text container */
+}
+
+.title {
+  color: white;
+  font-size: rem(32px);
+  font-weight: 700;
+  margin-bottom: rem(16px); /* Add some spacing below the title */
+}
+
+.image {
+  width: rem(280px);
+  height: rem(280px);
+  object-fit: cover; /* Ensure the image keeps its aspect ratio */
+  margin-left: rem(32px); /* Space between image and text */
+}
+
+@media (max-width: $mantine-breakpoint-md) {
+  .content {
+    flex-direction: column;
+    align-items: flex-start; /* Align content to the left */
+  }
+
+  .image {
+    margin-left: 0;
+    margin-top: rem(24px); /* Add some top margin when image is below text */
+    width: 100%;
+    height: auto;
+  }
+}
