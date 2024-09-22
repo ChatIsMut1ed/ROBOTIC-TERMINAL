@@ -5,7 +5,7 @@ import { AppFooter } from "./AppFooter";
 
 export default function AuthLayout() {
   return (
-    <AppShell padding={0} header={{ height: rem(60) }}>
+    <AppShell padding={0} header={{ height: rem(80) }}>
       <AppShell.Header>
         <AppHeader />
       </AppShell.Header>

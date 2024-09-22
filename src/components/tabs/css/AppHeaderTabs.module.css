@@ -1,33 +1,27 @@
+.list {
+  display: flex; /* Ensure tabs are in a row */
+  justify-content: space-between; /* Space out the tabs evenly */
+  padding: 0 60px; /* Add padding to the left and right of the list */
+  position: relative; /* Allow absolute positioning for the border */
+}
+
+.list::after {
+  content: ''; /* Create a pseudo-element for the bottom border */
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; /* Align it to the bottom of the list */
+  height: 1px; /* Height of the border */
+  background-color: #000000; /* Color of the border */
+}
+
 .tab {
   position: relative;
   background-color: #e8e8e8; /* Default background for inactive tabs */
-  color: #ffffff; /* Default text color for inactive tabs */
+  color: #333; /* Updated text color for visibility */
   font-weight: 500;
-
-  &:first-of-type { 
-    border-radius: 0 0 0 0;
- 
-    @mixin rtl {
-      border-radius: 0 0 0 0;
-    }
-  }
-
-  &:last-of-type {
-    border-radius: 0 0 0 0;
-
-    @mixin rtl {
-      border-radius: 0 0 0 0;
-    }
-  }
-
-  & + & {
-    border-left-width: 0;
-
-    @mixin rtl {
-      border-right-width: 0;
-      border-left-width: 1px;
-    }
-  }
+  padding: 10px 20px; /* Add padding for space inside the tab */
+  margin: 0; /* Remove margin from individual tabs */
 
   @mixin hover {
     background-color: white;
@@ -37,18 +31,14 @@
     z-index: 1;
     background-color: white; /* Active tab background color */
     color: gray; /* Active tab text color */
-    /* border-color: black; */
     border-top: 1px solid #000000;
     border-right: 1px solid #000000;
     border-left: 1px solid #000000;
-    border-bottom: 0px;
   }
 
   &:not([data-active]) {
     background-color: #e8e8e8; /* Inactive tab background color */
-    border-color: #e8e8e8;
     color: gray; /* Inactive tab text color */
-    border-bottom: 1px solid #000000;
   }
 
   &:hover {
@@ -56,12 +46,3 @@
     color: gray;
   }
 }
-
-/* .tabSection {
-  
-   color: #f36600 !important;
-
-  &:not([data-active]) {
-    color: #e8e8e8 !important;
-  }
-} */

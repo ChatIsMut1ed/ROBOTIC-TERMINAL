@@ -27,6 +27,7 @@ import {
   IconFingerprint,
   IconCoin,
   IconChevronDown,
+  IconArrowRight,
 } from "@tabler/icons-react";
 import classes from "@/components/layouts/css/AppHeader.module.css";
 import logo from "@/assets/images/logo_icon_black@500x.png";
@@ -97,7 +98,7 @@ const AppHeader = () => {
         <Group justify="space-between" h="100%">
           <Group>
             <Image src={logo} alt="logo" h={35} />
-            <Group h="100%" gap={"xl"} visibleFrom="sm">
+            <Group h="100%" gap={"xs"} visibleFrom="sm">
               <a href="#" className={classes.link}>
                 Platform
               </a>
@@ -164,15 +165,15 @@ const AppHeader = () => {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button
-              variant="subtle"
-              className={classes.signinBtn}
-              radius={"xs"}
-            >
+            <Button variant="subtle" size="md" className={classes.signinBtn}>
               Log in
             </Button>
-            <Button className={classes.signupBtn} radius={"xs"}>
-              Sign up
+            <Button
+              className={classes.signupBtn}
+              rightSection={<IconArrowRight size={16} stroke={1.5} />}
+              size="md"
+            >
+              Sign up free
             </Button>
           </Group>
 
@@ -220,7 +221,7 @@ const AppHeader = () => {
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
+            <Button variant="default">Logs in</Button>
             <Button>Sign up</Button>
           </Group>
         </ScrollArea>
