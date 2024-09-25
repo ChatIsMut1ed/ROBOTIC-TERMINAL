@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column; /* Stack cards vertically */
+  gap: 10px; /* Add space between cards */
+  margin-left: 257px;
+}
+
+.card {
+  width: 600px; /* Increased width for the cards */
+  max-height: 300px;
+  overflow: hidden;
+  border: 1px solid #000; /* Solid border */
+  border-left: 5px solid #000; /* Solid left border */
+  border-radius: 10px; /* Add border radius for rounded corners */
+  margin-bottom: 20px; /* Space between cards */
+  position: relative; /* Positioning for inner elements */
+  display: flex; /* To align inner content if needed */
+  flex-direction: column; /* Stack children vertically */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+}
+
+.logo {
+  width: 50%; /* Adjust size as needed */
+  border-radius: 10px 10px 0 0; /* Rounded corners for the logo */
+}
+
+.dottedBorder {
+  border-top: 1px dotted #000; /* Dotted border */
+  margin: 10px 0; /* Space around the border */
+}
+
+.cardImage {
+  width: 100%; /* Full width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Rounded corners for images */
+  z-index: 1;
+}
+
+/* Override styles for the second card to be slightly to the right */
+.secondCard {
+  position: relative; /* Make it relative for overlap control */
+  left: 43%;
+  margin-top: -70px;
+}
+
+/* Override styles for the third card to overlap with the second */
+.thirdCard {
+  position: relative; /* Keep it relative for proper flow */
+  /* margin-left: -5%; */
+  margin-top: -200px;
+  z-index: 99; /* Bring it above the second card */
+}
+
+/* Adjust borders for the third card */
+.card:nth-of-type(3) {
+  border-left: 1px solid #000;; /* Remove left border for the third card */
+  border-right: 5px solid #000; /* Add right solid border */
+}

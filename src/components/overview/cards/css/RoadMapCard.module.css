@@ -1,0 +1,50 @@
+.roadmapCard {
+  border: 1px solid #000; /* Solid border for the card */
+  border-left: 5px solid #000; /* Left border */
+  padding: 16px; /* Space inside the card */
+  margin-top: 16px; /* Space above the card */
+  border-radius: 4px; /* Optional: rounded corners */
+  background-color: white; /* Card background */
+}
+
+.roadmapImage {
+  width: 100%; /* Make image responsive */
+  height: 500px; /* Keep aspect ratio */
+  margin-bottom: 8px; /* Space below the image */
+}
+
+.dottedBorder {
+  border-top: 1px dotted #000; /* Dotted top border */
+  margin: 8px 0; /* Space above and below the dotted border */
+}
+
+.loremText {
+  font-size: 16px; /* Text size */
+  color: #333; /* Text color */
+  margin-top: 8px; /* Space above the text */
+}
+
+
+.smallCard {
+  border: 1px solid gray;
+  display: flex;
+  border-radius: 0px; /* Optional: add some rounded corners */
+  margin-bottom: 20px; /* Space between small cards */
+  padding: 10px;
+}
+
+.smallCardImage {
+  width: 100px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between image and text */
+}
+
+.smallCardContent {
+  border-left: 1px dotted #000; /* Dotted border */
+  padding-left: 10px; /* Space between dotted border and content */
+}
+
+.background{
+  padding-top: 80px;
+  background-color: #e8e8e8;
+}

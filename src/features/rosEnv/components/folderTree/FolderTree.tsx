@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IconFolder, IconFolderOpen } from "@tabler/icons-react";
 import {
   Group,
   Tree,
@@ -7,53 +6,15 @@ import {
   RenderTreeNodePayload,
   TreeNodeData,
 } from "@mantine/core";
-import { CssIcon, NpmIcon, TypeScriptCircleIcon } from "@mantinex/dev-icons";
 import classes from "./css/FolderTree.module.css"; // Import the API hook
 import { useGetFolderTreeModels } from "@/global/hooks/api/workspace.api";
+import FileIcon from "@/components/icons/FileIcon";
 
-// Icon component based on file type or folder
-interface FileIconProps {
-  extension?: string;
-  type: string;
-  expanded: boolean;
+interface FolderTreeProps {
+  onFileSelect: (filePath: string, content: string) => void;
 }
 
-function FileIcon({ extension, type, expanded }: FileIconProps) {
-  if (type === "file") {
-    switch (extension) {
-      case ".ts":
-      case ".tsx":
-      case "tsconfig.json":
-        return <TypeScriptCircleIcon size={14} />;
-      case ".css":
-        return <CssIcon size={14} />;
-      case "package.json":
-        return <NpmIcon size={14} />;
-      default:
-        return null; // Default icon for other file types can be added here if needed
-    }
-  }
-
-  if (type === "directory") {
-    return expanded ? (
-      <IconFolderOpen
-        color="var(--mantine-color-yellow-9)"
-        size={14}
-        stroke={2.5}
-      />
-    ) : (
-      <IconFolder
-        color="var(--mantine-color-yellow-9)"
-        size={14}
-        stroke={2.5}
-      />
-    );
-  }
-
-  return null;
-}
-
-const FolderTree = () => {
+const FolderTree: React.FC<FolderTreeProps> = ({ onFileSelect }) => {
   const { data: folderTreeData, isLoading, error } = useGetFolderTreeModels();
 
   if (isLoading) return <Loader />; // Display a loader while fetching
@@ -73,6 +34,21 @@ const FolderTree = () => {
   // Transform the folderTreeData to match TreeNodeData structure
   const transformedData = folderTreeData?.map(mapDataToTreeNode);
 
+  // Handle file click
+  const handleFileClick = async (filePath: string) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SOCKET_URL}file?path=${encodeURIComponent(
+          filePath
+        )}`
+      );
+      const content = await response.text(); // Fetch file content as text
+      onFileSelect(filePath, content); // Pass content to parent
+    } catch (error) {
+      console.error("Error fetching file content:", error);
+    }
+  };
+
   // Render each leaf in the tree (files/folders)
   function Leaf({ node, expanded, elementProps }: RenderTreeNodePayload) {
     const { type, extension } = node.nodeProps as {
@@ -81,7 +57,15 @@ const FolderTree = () => {
     };
 
     return (
-      <Group gap={5} {...elementProps}>
+      <Group
+        gap={5}
+        {...elementProps}
+        onClick={() => {
+          if (type === "file") {
+            handleFileClick(node.value); // Trigger file selection on file click
+          }
+        }}
+      >
         <FileIcon type={type} extension={extension} expanded={expanded} />
         <span>{node.label}</span>
       </Group>

@@ -3,19 +3,23 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Group, Paper, ThemeIcon, Title } from "@mantine/core";
 import { IconBracketsAngle } from "@tabler/icons-react";
 import classes from "../../css/RosEnvOverview.module.css";
-import files from "./data/files";
+import files from "./data/files"; // Can be replaced by API fetched content
 import Editor from "@monaco-editor/react";
 import FolderTree from "../folderTree/FolderTree";
 
-// Define the keys of the files object
-type FileName = "script.js" | "style.css" | "index.html";
-
 const CodeEditor = () => {
-  const [fileName, setFileName] = useState<FileName>("script.js");
-  const file = files[fileName];
+  const [fileContent, setFileContent] = useState<string>(
+    files["script.js"].value
+  ); // Default content
+  const [fileName, setFileName] = useState<string>("script.js");
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
     null
   );
+
+  const handleFileSelect = (filePath: string, content: string) => {
+    setFileName(filePath);
+    setFileContent(content);
+  };
 
   useEffect(() => {
     editorRef.current?.focus();
@@ -28,7 +32,7 @@ const CodeEditor = () => {
           <Title order={6} mb={"md"}>
             OORB-STUDIO
           </Title>
-          <FolderTree />
+          <FolderTree onFileSelect={handleFileSelect} />
         </Box>
         <Box className={classes.editorContainer}>
           <Group gap={"md"} mb={"xs"}>
@@ -40,9 +44,9 @@ const CodeEditor = () => {
           <Editor
             height="55vh"
             theme="vs-dark"
-            path={file.name}
-            defaultLanguage={file.language}
-            defaultValue={file.value}
+            path={fileName}
+            value={fileContent} // Bind file content to editor
+            language={fileName.endsWith(".js") ? "javascript" : "typescript"} // Dynamically set language
             onMount={(editor) => (editorRef.current = editor)}
           />
         </Box>
