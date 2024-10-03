@@ -1,6 +1,7 @@
 import { Grid, Paper } from "@mantine/core";
 import CodeEditor from "../components/RosEnv/CodeEditor";
 import Terminal from "../components/RosEnv/Terminal";
+import ReplicadExample from "../components/replicad/ReplicadExample";
 
 const RosEnvOverview = () => {
   return (
@@ -14,6 +15,8 @@ const RosEnvOverview = () => {
             <Terminal />
           </Grid.Col>
         </Grid>
+        {/* Replicad Example*/}
+        <ReplicadExample />
       </Paper>
     </>
   );
