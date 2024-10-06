@@ -30,7 +30,7 @@
   &[data-active] {
     z-index: 1;
     background-color: white; /* Active tab background color */
-    color: gray; /* Active tab text color */
+    color: #000; /* Active tab text color */
     border-top: 1px solid #000000;
     border-right: 1px solid #000000;
     border-left: 1px solid #000000;
@@ -38,11 +38,11 @@
 
   &:not([data-active]) {
     background-color: #e8e8e8; /* Inactive tab background color */
-    color: gray; /* Inactive tab text color */
+    color: #000; /* Inactive tab text color */
   }
 
   &:hover {
     background-color: white; 
-    color: gray;
+    color: #000;
   }
 }

@@ -5,7 +5,7 @@
 }
 
 .terminalContainer {
-  height: 400px;
+  height: 56vh;
 }
 
 /* Terminal Ends */
@@ -14,7 +14,7 @@
 
 .editorHeader {
   background-color: #e8e8e8;
-  height: 500px;
+  height: 65vh;
   display: flex
 }
 

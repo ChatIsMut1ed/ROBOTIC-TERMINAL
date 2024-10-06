@@ -92,78 +92,85 @@ export function AppFooter() {
   });
 
   return (
-    <footer className={classes.footer}>
-      <Box p={"lg"} className={classes.firstSection}>
-        <Group justify="space-between">
-          <Image src={logo} alt="logo" h={80} fit="contain" />
-          <Text
-            size="sm"
-            c="dimmed"
-            className={classes.description}
-            lineClamp={3}
-          >
-            The AI-driven open-source cloud robotics framework. built around
-            ROS, with a mission to shift the Robotics workflow and education
-            paradigm!
-          </Text>
-        </Group>
-      </Box>
-
-      <Box mt={"md"} p={"md"}>
-        <Group grow>
-          {groups}
-          <Box>
-            <Text className={classes.newsletterTitle}>
-              Subscribe to our newsletter
-            </Text>
+    <div
+      style={{
+        paddingTop: "0px",
+        backgroundColor: "white",
+      }}
+    >
+      <footer className={classes.footer}>
+        <Box p={"lg"} className={classes.firstSection}>
+          <Group justify="space-between">
+            <Image src={logo} alt="logo" h={80} fit="contain" />
             <Text
               size="sm"
               c="dimmed"
-              className={classes.newsletterDescription}
+              className={classes.description}
+              lineClamp={3}
             >
-              Stay updated with our latest news and offerings.
+              The AI-driven open-source cloud robotics framework. built around
+              ROS, with a mission to shift the Robotics workflow and education
+              paradigm!
             </Text>
-            <Group gap={5}>
-              <TextInput placeholder="Your email address" radius={"xs"} />
-              <Button className={classes.newsletterButton} radius={"xs"}>
-                Subscribe
-              </Button>
-            </Group>
-          </Box>
-        </Group>
-      </Box>
+          </Group>
+        </Box>
 
-      <Box className={classes.afterFooter} p={"md"}>
-        <Text c="dimmed" size="sm">
-          Copyright © 2024 OORB Studio | All Rights Reserved
-        </Text>
+        <Box mt={"md"} p={"md"}>
+          <Group grow>
+            {groups}
+            <Box>
+              <Text className={classes.newsletterTitle}>
+                Subscribe to our newsletter
+              </Text>
+              <Text
+                size="sm"
+                c="dimmed"
+                className={classes.newsletterDescription}
+              >
+                Stay updated with our latest news and offerings.
+              </Text>
+              <Group gap={5}>
+                <TextInput placeholder="Your email address" radius={"xs"} />
+                <Button className={classes.newsletterButton} radius={"xs"}>
+                  Subscribe
+                </Button>
+              </Group>
+            </Box>
+          </Group>
+        </Box>
 
-        <Group
-          gap={0}
-          className={classes.social}
-          justify="flex-end"
-          wrap="nowrap"
-        >
-          <ActionIcon size="lg" color="gray" variant="subtle">
-            <IconBrandTwitter
-              style={{ width: rem(18), height: rem(18) }}
-              stroke={1.5}
-            />
-          </ActionIcon>
-          <ActionIcon size="lg" color="gray" variant="subtle">
-            <IconBrandYoutube
-              style={{ width: rem(18), height: rem(18) }}
-              stroke={1.5}
-            />
-          </ActionIcon>
-          <ActionIcon size="lg" color="gray" variant="subtle">
-            <IconBrandInstagram
-              style={{ width: rem(18), height: rem(18) }}
-              stroke={1.5}
-            />
-          </ActionIcon>
-        </Group>
-      </Box>
-    </footer>
+        <Box className={classes.afterFooter} p={"md"}>
+          <Text c="dimmed" size="sm">
+            Copyright © 2024 OORB Studio | All Rights Reserved
+          </Text>
+
+          <Group
+            gap={0}
+            className={classes.social}
+            justify="flex-end"
+            wrap="nowrap"
+          >
+            <ActionIcon size="lg" color="gray" variant="subtle">
+              <IconBrandTwitter
+                style={{ width: rem(18), height: rem(18) }}
+                stroke={1.5}
+              />
+            </ActionIcon>
+            <ActionIcon size="lg" color="gray" variant="subtle">
+              <IconBrandYoutube
+                style={{ width: rem(18), height: rem(18) }}
+                stroke={1.5}
+              />
+            </ActionIcon>
+            <ActionIcon size="lg" color="gray" variant="subtle">
+              <IconBrandInstagram
+                style={{ width: rem(18), height: rem(18) }}
+                stroke={1.5}
+              />
+            </ActionIcon>
+          </Group>
+        </Box>
+      </footer>
+    </div>
   );
 }

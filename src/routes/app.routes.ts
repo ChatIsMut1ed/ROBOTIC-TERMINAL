@@ -40,7 +40,7 @@ const routes: RouteConfig[] = [
     path: "*",
     name: "not found",
     component: NotFoundPage,
-    layout: "private",
+    layout: "guest",
     roles: Role.ALL,
   },
 ];

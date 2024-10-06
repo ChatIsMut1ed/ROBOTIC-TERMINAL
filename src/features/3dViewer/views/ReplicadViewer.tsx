@@ -5,13 +5,13 @@ import FileSaver from "file-saver";
 import { wrap } from "comlink";
 import ThreeContext from "@/global/lib/replicad/ThreeContext";
 import cadWorker from "@/global/lib/replicad/worker.js?worker";
-import ReplicadMesh from "./ReplicadMesh";
 import { CadWorkerApi } from "@/global/types/Replicad";
+import ReplicadMesh from "../components/meshes/ReplicadMesh";
 
 // Wrap the worker with type safety
 const cad = wrap<CadWorkerApi>(new cadWorker());
 
-const ReplicadExample = () => {
+const ReplicadViewer = () => {
   const [size, setSize] = useState(5);
   const [mesh, setMesh] = useState<{ faces: any; edges: any } | null>(null);
 
@@ -23,9 +23,14 @@ const ReplicadExample = () => {
   useEffect(() => {
     cad.createMesh(size).then((m) => setMesh(m));
   }, [size]);
-
   return (
-    <Box mt="lg">
+    <Box
+      pt="xl"
+      p={"md"}
+      style={{
+        backgroundColor: "white",
+      }}
+    >
       <Title order={2} mb={"md"}>
         Replicad Example
       </Title>
@@ -67,4 +72,4 @@ const ReplicadExample = () => {
   );
 };
 
-export default ReplicadExample;
+export default ReplicadViewer;

@@ -1,9 +1,8 @@
 import { Grid, Paper } from "@mantine/core";
 import CodeEditor from "../components/RosEnv/CodeEditor";
 import Terminal from "../components/RosEnv/Terminal";
-import ReplicadExample from "../components/replicad/ReplicadExample";
 
-const RosEnvOverview = () => {
+const EditorOverview = () => {
   return (
     <>
       <Paper p={"md"} radius={"xs"}>
@@ -15,11 +14,9 @@ const RosEnvOverview = () => {
             <Terminal />
           </Grid.Col>
         </Grid>
-        {/* Replicad Example*/}
-        <ReplicadExample />
       </Paper>
     </>
   );
 };
 
-export default RosEnvOverview;
+export default EditorOverview;

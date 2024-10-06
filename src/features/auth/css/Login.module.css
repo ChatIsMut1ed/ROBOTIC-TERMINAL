@@ -1,0 +1,82 @@
+.container {
+ background-color: #e8e8e8;
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family:
+    var(--mantine-font-family);
+  font-size: rem(35px);
+  line-height: 1.2;
+  font-weight: 700;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: rem(28px);
+  }
+}
+
+.highlightText {
+  color: #16bbc4;
+  font-size: rem(35px);
+}
+
+.inner {
+  display: flex;
+  justify-content: space-around;
+  padding-top: calc(var(--mantine-spacing-xl) * 2);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
+  padding-left: calc(var(--mantine-spacing-md) * 2);
+  padding-right: calc(var(--mantine-spacing-md) * 2);
+  position: relative;
+  /* Ensure positioning context */
+  border: 1px solid #000;
+  /* Solid border color */
+  border-radius: 0;
+  /* Optional: add rounded corners */
+  background: white;
+  /* Background color of the inner div */
+  /* Ensuring a consistent height */
+  min-width: 500px;
+  min-height: 300px;
+  /* Adjust this based on your content */
+  transition: all 0.3s ease-in-out;
+}
+
+.shadow {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  border-bottom: 5px solid black;
+  border-right: 5px solid black;
+}
+
+/* Login.module.css */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  cursor: pointer;
+  color: #999;
+  font-size: 16px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.tab:hover {
+  color: #333;
+  border-bottom: 2px solid #ccc;
+}
+
+.activeTab {
+  color: #000;
+  border-bottom: 2px solid #333;
+  font-weight: bold;
+  /* Added for better visibility */
+}

@@ -6,7 +6,7 @@ export const theme = createTheme({
     "primary-cyan": paletteColors,
   },
   primaryColor: "primary-cyan",
-  fontFamily: "Segoe UI",
-  fontFamilyMonospace: "Segoe UI, Courier, monospace",
-  headings: { fontFamily: "Segoe UI, sans-serif" },
+  fontFamily: "Roboto Mono, sans-serif",
+  fontFamilyMonospace: "Monaco, Courier, monospace",
+  headings: { fontFamily: "Roboto Mono, sans-serif" },
 });

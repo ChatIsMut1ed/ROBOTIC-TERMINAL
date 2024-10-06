@@ -42,7 +42,7 @@ const CodeEditor = () => {
             <Title order={2}>Code Editor</Title>
           </Group>
           <Editor
-            height="55vh"
+            height="50vh"
             theme="vs-dark"
             path={fileName}
             value={fileContent} // Bind file content to editor

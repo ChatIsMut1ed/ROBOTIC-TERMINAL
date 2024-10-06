@@ -25,11 +25,7 @@ const Terminal = () => {
 
   return (
     <Paper withBorder>
-      <Box
-        className={classes.terminalHeader}
-        p={"xs"}
-        style={{ height: "500px" }}
-      >
+      <Box className={classes.terminalHeader} p={"xs"}>
         <Group mb={"md"} justify="space-between">
           <Group gap={"md"}>
             <ThemeIcon variant="default" size="xl">

@@ -31,6 +31,8 @@ import {
 } from "@tabler/icons-react";
 import classes from "@/components/layouts/css/AppHeader.module.css";
 import logo from "@/assets/images/logo_icon_black@500x.png";
+import { useNavigate } from "react-router-dom";
+import useAuth from "@/global/hooks/useAuth";
 
 const mockdata = [
   {
@@ -66,6 +68,9 @@ const mockdata = [
 ];
 
 const AppHeader = () => {
+  const navigate = useNavigate();
+  const { authState, globalLogOutDispatch } = useAuth();
+  const user = authState?.user;
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -99,7 +104,7 @@ const AppHeader = () => {
           <Group>
             <Image src={logo} alt="logo" h={35} />
             <Group h="100%" gap={"xs"} visibleFrom="sm">
-              <a href="#" className={classes.link}>
+              <a href="/home-page" className={classes.link}>
                 Platform
               </a>
               <HoverCard
@@ -164,18 +169,41 @@ const AppHeader = () => {
             </Group>
           </Group>
 
-          <Group visibleFrom="sm">
-            <Button variant="subtle" size="md" className={classes.signinBtn}>
-              Log in
-            </Button>
-            <Button
-              className={classes.signupBtn}
-              rightSection={<IconArrowRight size={16} stroke={1.5} />}
-              size="md"
-            >
-              Sign up free
-            </Button>
-          </Group>
+          {!authState?.isLoggedIn ? (
+            <Group visibleFrom="sm">
+              <Button
+                variant="subtle"
+                size="md"
+                className={classes.signinBtn}
+                onClick={() => navigate("/login")}
+              >
+                Log in
+              </Button>
+              <Button
+                className={classes.signupBtn}
+                rightSection={<IconArrowRight size={16} stroke={1.5} />}
+                size="md"
+                onClick={() => navigate("/login")}
+              >
+                Sign up free
+              </Button>
+            </Group>
+          ) : (
+            <Group gap={"md"}>
+              <Text size="sm" fw={"bold"}>
+                !Hi,{`${user?.first_name} ${user?.last_name}`}
+              </Text>
+              <Button
+                className={classes.signupBtn}
+                rightSection={<IconArrowRight size={16} stroke={1.5} />}
+                size="xs"
+                radius={"xs"}
+                onClick={globalLogOutDispatch}
+              >
+                Logout
+              </Button>
+            </Group>
+          )}
 
           <Burger
             opened={drawerOpened}

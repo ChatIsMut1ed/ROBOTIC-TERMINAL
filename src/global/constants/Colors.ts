@@ -5,6 +5,7 @@ type CustomColors = {
   primaryBackground: string;
   primaryDark: string;
   primaryLight: string;
+  backgroundPrimary: string;
 
   secondary: string;
   secondaryBackground: string;
@@ -35,6 +36,7 @@ export const myColors: CustomColors = {
   primaryBackground: "#cccccc",
   primaryDark: "#57535a",
   primaryLight: "#b0b0b0",
+  backgroundPrimary: "#e8e8e8",
 
   // secondary
   secondary: "#16bbc4",

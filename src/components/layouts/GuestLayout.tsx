@@ -1,10 +1,10 @@
+import { myColors } from "@/global/constants/Colors";
 import { AppShell, rem } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import AppHeader from "./AppHeader";
 import { AppFooter } from "./AppFooter";
-import { myColors } from "@/global/constants/Colors";
 
-export default function AuthLayout() {
+export default function GuestLayout() {
   return (
     <AppShell padding={0} header={{ height: rem(80) }}>
       <AppShell.Header>

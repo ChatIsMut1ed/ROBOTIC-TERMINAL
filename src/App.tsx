@@ -4,6 +4,7 @@ import useAuth from "./global/hooks/useAuth";
 import useScrollToTop from "./global/hooks/useScrollToTop";
 import routes from "./routes/app.routes";
 import AuthLayout from "./components/layouts/AuthLayout";
+import GuestLayout from "./components/layouts/GuestLayout";
 
 export default function App() {
   useScrollToTop();
@@ -15,7 +16,7 @@ export default function App() {
   return (
     <Routes>
       {!authState.isLoggedIn && (
-        <Route element={<AuthLayout />}>
+        <Route element={<GuestLayout />}>
           {guestRoutes.map((route) => (
             <Route
               key={route.path}
@@ -28,6 +29,13 @@ export default function App() {
       {authState.isLoggedIn && (
         <Route element={<AuthLayout />}>
           {adminRoutes.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<route.component />}
+            />
+          ))}
+          {guestRoutes.map((route) => (
             <Route
               key={route.path}
               path={route.path}
