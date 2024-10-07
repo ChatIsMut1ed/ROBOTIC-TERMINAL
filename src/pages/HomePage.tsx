@@ -72,7 +72,7 @@ const HomePage = () => {
       value: "chat",
       content: <ChatOverviewPage />,
       icon: null,
-      disabled: true,
+      disabled: false,
     },
     {
       title: "Config",

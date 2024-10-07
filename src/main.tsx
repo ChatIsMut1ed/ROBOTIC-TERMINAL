@@ -7,6 +7,7 @@ import { theme } from "./theme.ts";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./global/lib/auth/context.tsx";
 import { TerminalContextProvider } from "react-terminal";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <BrowserRouter>
           <AuthProvider>
             <TerminalContextProvider>
+              <ToastContainer />
               <App />
             </TerminalContextProvider>
           </AuthProvider>

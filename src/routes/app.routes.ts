@@ -4,6 +4,7 @@ import { UnderMaintenancePage } from "@/pages/UnderMaintenancePage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import authRoutes from "./auth.routes";
 import HomePage from "@/pages/HomePage";
+import chatRoutes from "./chat.routes";
 
 export interface RouteConfig {
   path: string;
@@ -29,6 +30,7 @@ const routes: RouteConfig[] = [
     roles: Role.ALL,
   },
   ...authRoutes,
+  ...chatRoutes,
   {
     path: "/under-maintenance",
     name: "under maintenance",
