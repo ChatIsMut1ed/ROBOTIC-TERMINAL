@@ -7,7 +7,8 @@ import { theme } from "./theme.ts";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./global/lib/auth/context.tsx";
 import { TerminalContextProvider } from "react-terminal";
-import { ToastContainer } from "react-toastify";
+import { ToastProvider } from "./global/lib/toast/ToastContext.tsx";
+import { Notifications } from "@mantine/notifications";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,12 +23,14 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
+        <Notifications position="top-right" />
         <BrowserRouter>
           <AuthProvider>
-            <TerminalContextProvider>
-              <ToastContainer />
-              <App />
-            </TerminalContextProvider>
+            <ToastProvider>
+              <TerminalContextProvider>
+                <App />
+              </TerminalContextProvider>
+            </ToastProvider>
           </AuthProvider>
         </BrowserRouter>
       </MantineProvider>

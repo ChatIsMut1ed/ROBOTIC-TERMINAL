@@ -1,4 +1,5 @@
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import { Route, Routes } from "react-router-dom";
 import useAuth from "./global/hooks/useAuth";
 import useScrollToTop from "./global/hooks/useScrollToTop";

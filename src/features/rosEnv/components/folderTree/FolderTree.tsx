@@ -1,72 +1,105 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Group,
   Tree,
-  Loader,
   RenderTreeNodePayload,
   TreeNodeData,
 } from "@mantine/core";
-import classes from "./css/FolderTree.module.css"; // Import the API hook
-import { useGetFolderTreeModels } from "@/global/hooks/api/workspace.api";
-import FileIcon from "@/components/icons/FileIcon";
+import { FetchFolderTreeResponse } from "@/global/hooks/api/workspace.api";
+import FileIcon from "@/components/icons/FileIcon"; // Ensure this points to the right file
+import classes from "./css/FolderTree.module.css"; // Import the CSS for styling
 
 interface FolderTreeProps {
+  data: FetchFolderTreeResponse[] | undefined; // Expect data to be passed in
   onFileSelect: (filePath: string, content: string) => void;
 }
 
-const FolderTree: React.FC<FolderTreeProps> = ({ onFileSelect }) => {
-  const { data: folderTreeData, isLoading, error } = useGetFolderTreeModels();
-
-  if (isLoading) return <Loader />; // Display a loader while fetching
-  if (error) return <p>Error loading folder tree</p>; // Handle error state
-
-  // Function to map API response to TreeNodeData structure
-  const mapDataToTreeNode = (node: any): TreeNodeData => ({
+const FolderTree: React.FC<FolderTreeProps> = ({ data, onFileSelect }) => {
+  const mapDataToTreeNode = (node: FetchFolderTreeResponse): TreeNodeData => ({
     label: node.label,
     value: node.value,
-    children: node.children?.map(mapDataToTreeNode), // recursively map children
+    children: node.children?.map(mapDataToTreeNode) || [], // Use an empty array if no children
     nodeProps: {
       type: node.type,
       extension: node.extension,
     },
   });
 
-  // Transform the folderTreeData to match TreeNodeData structure
-  const transformedData = folderTreeData?.map(mapDataToTreeNode);
+  const transformedData = data?.map(mapDataToTreeNode);
 
-  // Handle file click
   const handleFileClick = async (filePath: string) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SOCKET_URL}file?path=${encodeURIComponent(
+        `${import.meta.env.VITE_API_URL}file?path=${encodeURIComponent(
           filePath
         )}`
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const content = await response.text(); // Fetch file content as text
-      onFileSelect(filePath, content); // Pass content to parent
+      console.log("Fetched Content:", content); // Check the actual content fetched
+
+      // Transform content to plain text
+      const transformedContent = transformToPlainText(content, filePath);
+
+      // Pass the transformed content to the parent
+      onFileSelect(filePath, transformedContent);
     } catch (error) {
       console.error("Error fetching file content:", error);
     }
   };
 
-  // Render each leaf in the tree (files/folders)
-  function Leaf({ node, expanded, elementProps }: RenderTreeNodePayload) {
-    const { type, extension } = node.nodeProps as {
-      type: string;
-      extension?: string;
+  // Helper function to transform content based on file type
+  const transformToPlainText = (content: string, filePath: string): string => {
+    if (filePath.endsWith(".json")) {
+      // Optionally format JSON for better readability
+      try {
+        const jsonObject = JSON.parse(content);
+        console.log(JSON.stringify(jsonObject, null, "\t"));
+        return JSON.stringify(jsonObject, null, "\t"); // Pretty-print JSON with indentation
+      } catch (error) {
+        console.error("Invalid JSON format:", error);
+        return content; // Return the original content if JSON parsing fails
+      }
+    }
+
+    // For other types, just return the content as is
+    return content;
+  };
+
+  function Leaf({
+    node,
+    expanded,
+    hasChildren,
+    elementProps,
+  }: RenderTreeNodePayload) {
+    const isDirectory = hasChildren;
+    const isFile = !isDirectory;
+    const extension = isFile ? node.value.split(".").pop() : undefined;
+    const type = isDirectory ? "directory" : "file";
+    const filePath = node.value; // Assuming the value is the file path
+
+    const handleClick = (event: React.MouseEvent) => {
+      if (isFile) {
+        handleFileClick(filePath);
+      } else {
+        // This will toggle the directory when clicked
+        if (elementProps.onClick) {
+          elementProps.onClick(event); // Ensure it's defined
+        }
+      }
     };
 
     return (
       <Group
         gap={5}
-        {...elementProps}
-        onClick={() => {
-          if (type === "file") {
-            handleFileClick(node.value); // Trigger file selection on file click
-          }
-        }}
+        {...elementProps} // Keep this to allow Mantine to manage events
+        onClick={handleClick} // Attach handler for files
+        style={{ cursor: isDirectory ? "pointer" : "default" }} // Optional: visual feedback
       >
-        <FileIcon type={type} extension={extension} expanded={expanded} />
+        <FileIcon extension={extension} type={type} expanded={expanded} />
         <span>{node.label}</span>
       </Group>
     );

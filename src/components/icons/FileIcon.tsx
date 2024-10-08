@@ -2,13 +2,14 @@ import { CssIcon, NpmIcon, TypeScriptCircleIcon } from "@mantinex/dev-icons";
 import { IconFolder, IconFolderOpen } from "@tabler/icons-react";
 
 interface FileIconProps {
-  extension?: string;
-  type: string;
-  expanded: boolean;
+  extension?: string; // Optional to handle files without extensions
+  type: string; // Either "file" or "directory"
+  expanded: boolean; // Indicates if the directory is expanded
 }
 
 export default function FileIcon({ extension, type, expanded }: FileIconProps) {
   if (type === "file") {
+    // Check the extension and return the corresponding icon
     switch (extension) {
       case ".ts":
       case ".tsx":
@@ -19,10 +20,12 @@ export default function FileIcon({ extension, type, expanded }: FileIconProps) {
       case "package.json":
         return <NpmIcon size={14} />;
       default:
-        return null; // Default icon for other file types can be added here if needed
+        // Here you can also implement a default icon if necessary
+        return <NpmIcon size={14} />;
     }
   }
 
+  // If the type is a directory, show the folder icon based on expanded state
   if (type === "directory") {
     return expanded ? (
       <IconFolderOpen
@@ -39,5 +42,5 @@ export default function FileIcon({ extension, type, expanded }: FileIconProps) {
     );
   }
 
-  return null;
+  return null; // Default case, returns null if no conditions match
 }

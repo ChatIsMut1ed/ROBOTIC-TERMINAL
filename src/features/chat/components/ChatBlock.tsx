@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChatMessage, MessageType } from "@/global/types/chat/ChatCompletion";
-import { IconUser, IconUserCog } from "@tabler/icons-react";
+import { IconBrain, IconUser, IconUserCog } from "@tabler/icons-react";
 import React, {
   ChangeEvent,
   KeyboardEvent,
@@ -26,8 +27,8 @@ const ChatBlock: React.FC<Props> = ({ block, loading, isLastBlock }) => {
   const errorStyles =
     block.messageType === MessageType.Error
       ? {
-          backgroundColor: "#F5E6E6",
-          borderColor: "red",
+          backgroundColor: "#fce4e4",
+          borderColor: "#ff5f5f",
           borderWidth: "1px",
           borderRadius: "8px",
           padding: "10px",
@@ -41,8 +42,6 @@ const ChatBlock: React.FC<Props> = ({ block, loading, isLastBlock }) => {
     }
   }, [isEdit]);
 
-  const handleRegenerate = () => {};
-
   const handleEdit = () => {
     if (contentRef.current) {
       setSavedHeight(`${contentRef.current.offsetHeight}px`);
@@ -50,8 +49,8 @@ const ChatBlock: React.FC<Props> = ({ block, loading, isLastBlock }) => {
     setIsEdit(true);
     setEditedBlockContent(block.content);
   };
+
   const handleEditSave = () => {
-    // todo: notify main to change content block
     setIsEdit(false);
   };
 
@@ -60,13 +59,10 @@ const ChatBlock: React.FC<Props> = ({ block, loading, isLastBlock }) => {
   };
 
   const checkForSpecialKey = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    const isEnter = e.key === "Enter";
-    const isEscape = e.key === "Escape";
-
-    if (isEnter) {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleEditSave();
-    } else if (isEscape) {
+    } else if (e.key === "Escape") {
       e.preventDefault();
       handleEditCancel();
     }
@@ -77,79 +73,95 @@ const ChatBlock: React.FC<Props> = ({ block, loading, isLastBlock }) => {
   };
 
   return (
-    <div key={`chat-block-${block.id}`}>
-      <div>
-        <div>
-          <div>
-            <div>
+    <div
+      key={`chat-block-${block.id}`}
+      style={{
+        display: "flex",
+        padding: "1rem 0",
+        marginBottom: "1rem",
+        borderBottom: "1px solid #e0e0e0",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          marginRight: "1rem",
+        }}
+      >
+        {block.role === "user" ? (
+          <IconUser size={30} style={{ paddingRight: "0.5rem" }} />
+        ) : block.role === "assistant" ? (
+          <IconBrain size={30} style={{ paddingRight: "0.5rem" }} />
+        ) : null}
+      </div>
+
+      <div style={{ flexGrow: 1 }}>
+        <div
+          id={`message-block-${block.id}`}
+          style={{
+            ...errorStyles,
+            backgroundColor: block.role === "user" ? "#f1f5f9" : "#a6f1f5",
+            padding: "1rem",
+            borderRadius: "10px",
+            position: "relative",
+            overflow: "hidden",
+            wordWrap: "break-word",
+          }}
+        >
+          {isEdit ? (
+            <textarea
+              spellCheck={false}
+              ref={textareaRef}
+              style={{
+                width: "100%",
+                height: savedHeight ?? "auto",
+                lineHeight: "1.4",
+                fontSize: "1rem",
+                borderRadius: "8px",
+                padding: "0.75rem",
+              }}
+              onChange={handleTextChange}
+              onKeyDown={checkForSpecialKey}
+              value={editedBlockContent}
+            ></textarea>
+          ) : (
+            <div ref={contentRef}>
               {block.role === "user" ? (
-                <IconUser size={24} />
-              ) : block.role === "assistant" ? (
-                <IconUserCog key={`open-ai-logo-${block.id}`} />
-              ) : null}
+                <UserContentBlock
+                  text={block.content}
+                  fileDataRef={block.fileDataRef ? block.fileDataRef : []}
+                />
+              ) : (
+                <MarkdownBlock
+                  markdown={block.content}
+                  role={block.role}
+                  loading={loading}
+                />
+              )}
             </div>
-          </div>
-          <div>
-            <div id={`message-block-${block.id}`} style={errorStyles}>
-              <div>
-                {isEdit ? (
-                  <textarea
-                    spellCheck={false}
-                    tabIndex={0}
-                    ref={textareaRef}
-                    style={{
-                      height: savedHeight ?? undefined,
-                      lineHeight: "1.33",
-                      fontSize: "1rem",
-                    }}
-                    onChange={handleTextChange}
-                    onKeyDown={checkForSpecialKey}
-                    value={editedBlockContent}
-                  ></textarea>
-                ) : (
-                  <div ref={contentRef}>
-                    {block.role === "user" ? (
-                      <UserContentBlock
-                        text={block.content}
-                        fileDataRef={block.fileDataRef ? block.fileDataRef : []}
-                      />
-                    ) : (
-                      <>
-                        <MarkdownBlock
-                          markdown={block.content}
-                          role={block.role}
-                          loading={loading}
-                        />
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
-        {!(isLastBlock && loading) && (
-          <div id={`action-block-${block.id}`}>
-            {/* {block.role === "assistant" && (
-              <TextToSpeechButton content={block.content} />
-            )} */}
-            {/* <div className="copy-button">
-              <CopyButton mode={CopyButtonMode.Compact} text={block.content} />
-            </div> */}
-            {/*          {block.role === 'assistant' && (
-                    <div className="regenerate-button text-gray-400 visible">
-                        <button className="flex gap-2" onClick={handleRegenerate}>
-                            <ArrowPathRoundedSquareIcon {...iconProps}/>
-                        </button>
-                    </div>
-                  )}
-                  <div className="regenerate-button text-gray-400 visible">
-                      <button className="flex gap-2" onClick={handleEdit}>
-                          <PencilSquareIcon {...iconProps}/>
-                      </button>
-                  </div>*/}
+
+        {/* {!isLastBlock && !loading && (
+          <div id={`action-block-${block.id}`} style={{ marginTop: "0.5rem" }}>
+            <button
+              onClick={handleEdit}
+              style={{
+                fontSize: "0.85rem",
+                color: "#4a5568",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                padding: "0.25rem",
+                textDecoration: "underline",
+              }}
+            >
+              Edit
+            </button>
+      
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

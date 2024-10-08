@@ -1,5 +1,5 @@
-import { Tooltip } from "@mantine/core";
-import { IconPlaneDeparture, IconSolarPanel } from "@tabler/icons-react";
+import { Button, Loader, Tooltip } from "@mantine/core";
+import { IconPlayerPlay } from "@tabler/icons-react";
 import React from "react";
 
 interface SubmitButtonProps {
@@ -13,17 +13,20 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
   disabled,
   name,
 }) => {
-  const strokeColor = disabled ? "white" : "white";
-
   return (
-    <Tooltip label={"send-message"}>
-      <button name={name} type="submit" disabled={loading || disabled}>
-        {loading ? (
-          <IconSolarPanel size={24} stroke={1.5} color={strokeColor} />
-        ) : (
-          <IconPlaneDeparture size={24} />
-        )}
-      </button>
+    <Tooltip label={"Send Message"}>
+      <Button
+        name={name}
+        type="submit"
+        size="md"
+        disabled={loading || disabled}
+        variant="default"
+        leftSection={
+          loading ? <Loader size={15} /> : <IconPlayerPlay size={24} />
+        }
+      >
+        Send Message
+      </Button>
     </Tooltip>
   );
 };

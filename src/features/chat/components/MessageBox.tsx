@@ -1,4 +1,5 @@
-// MessageBox.tsx
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {
   ChangeEvent,
   FormEvent,
@@ -20,7 +21,7 @@ import { FileDataRef } from "@/global/types/chat/FileData";
 import { preprocessImage } from "@/global/utils/ImageUtils";
 import { ChatService } from "../services/ChatService";
 import { IconPaperclip, IconPlayerStop } from "@tabler/icons-react";
-import { Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Grid, Textarea, Tooltip } from "@mantine/core";
 import { SubmitButton } from "./SubmitButton";
 
 interface MessageBoxProps {
@@ -380,7 +381,7 @@ const MessageBox = forwardRef<MessageBoxHandles, MessageBoxProps>(
     };
 
     return (
-      <div style={{ position: "sticky" }}>
+      <div style={{ position: "sticky", marginTop: "10px" }}>
         <form onSubmit={handleSubmit}>
           <div id="message-box-border" style={{ borderRadius: "1rem" }}>
             {/* FileDataPreview Full Width at the Top */}
@@ -395,39 +396,58 @@ const MessageBox = forwardRef<MessageBoxHandles, MessageBoxProps>(
             )}
             {/* Container for Textarea and Buttons */}
             <div>
-              {/* Attachment Button */}
-              <div>
-                <button onClick={(e) => handleAttachment(e)}>
-                  <IconPaperclip size={18} />
-                </button>
-              </div>
-
               {/* Grammarly extension container */}
               <div style={{ flexShrink: 0, minWidth: "fit-content" }}>
                 {/* Grammarly extension buttons will render here without overlapping */}
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                {/* Attachment Button */}
+                <ActionIcon
+                  variant="default"
+                  aria-label="attachments"
+                  size={"lg"}
+                  onClick={(e) => handleAttachment(e)}
+                >
+                  <IconPaperclip
+                    style={{ width: "80%", height: "80%" }}
+                    stroke={1.5}
+                  />
+                </ActionIcon>
 
-              {/* Textarea */}
-              <textarea
-                id="sendMessageInput"
-                name="message"
-                tabIndex={0}
-                ref={textAreaRef}
-                rows={1}
-                placeholder={"send-a-message"}
-                onKeyDown={checkForSpecialKey}
-                onChange={handleTextChange}
-                onPaste={handlePaste}
-                style={{ minWidth: 0 }}
-              ></textarea>
+                {/* Textarea */}
+                <Textarea
+                  size="md"
+                  id="sendMessageInput"
+                  name="message"
+                  tabIndex={0}
+                  ref={textAreaRef}
+                  rows={1}
+                  placeholder={"Send a message"}
+                  onKeyDown={checkForSpecialKey}
+                  onChange={handleTextChange}
+                  onPaste={handlePaste}
+                  style={{
+                    minWidth: "0",
+                    flexGrow: 1,
+                  }}
+                />
 
-              {/* Cancel/Submit Button */}
-              <div>
+                {/* Cancel/Submit Button */}
                 {loading ? (
                   <Tooltip label={"cancel-output"}>
-                    <button onClick={(e) => handleCancel(e)} className="p-1">
+                    <Button
+                      onClick={(e) => handleCancel(e)}
+                      variant="default"
+                      size="md"
+                    >
                       <IconPlayerStop size={24} />
-                    </button>
+                    </Button>
                   </Tooltip>
                 ) : (
                   <SubmitButton

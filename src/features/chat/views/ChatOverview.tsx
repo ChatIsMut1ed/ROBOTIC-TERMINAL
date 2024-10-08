@@ -1,9 +1,4 @@
-import {
-  ChatCompletion,
-  ChatMessage,
-  MessageType,
-  Role,
-} from "@/global/types/chat/ChatCompletion";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChatSettings } from "@/global/types/chat/ChatSettings";
 import { Conversation } from "@/global/types/chat/Conversation";
 import { MessageBoxHandles } from "@/global/types/chat/MessageBox";
@@ -31,6 +26,13 @@ import ChatSettingDropdownMenu from "../components/ChatSettingDropdownMenu";
 import CustomChatSplash from "../components/CustomChatSplash";
 import Chat from "../components/Chat";
 import MessageBox from "../components/MessageBox";
+import {
+  ChatCompletion,
+  ChatMessage,
+  MessageType,
+  Role,
+} from "@/global/types/chat/ChatCompletion";
+import { Box, Container } from "@mantine/core";
 
 function getFirstValidString(...args: (string | undefined | null)[]): string {
   for (const arg of args) {
@@ -186,7 +188,7 @@ const ChatOverview = () => {
   };
   const handleSelectedConversation = (id: string | null) => {
     if (id && id.length > 0) {
-      let n = Number(id);
+      const n = Number(id);
       ConversationService.getConversationById(n).then((conversation) => {
         if (conversation) {
           setConversation(conversation);
@@ -218,7 +220,7 @@ const ChatOverview = () => {
   };
 
   function getTitle(message: string): string {
-    let title = message.trimStart(); // Remove leading newlines
+    const title = message.trimStart(); // Remove leading newlines
     let firstNewLineIndex = title.indexOf("\n");
     if (firstNewLineIndex === -1) {
       firstNewLineIndex = title.length;
@@ -242,8 +244,8 @@ const ChatOverview = () => {
   function startConversation(message: string, fileDataRef: FileDataRef[]) {
     const id = Date.now();
     const timestamp = Date.now();
-    let shortenedText = getTitle(message);
-    let instructions = getFirstValidString(
+    const shortenedText = getTitle(message);
+    const instructions = getFirstValidString(
       chatSettings?.instructions,
       userSettings.instructions,
       ChatConfig.defaultSystemPrompt,
@@ -321,14 +323,14 @@ const ChatOverview = () => {
   function sendMessage(updatedMessages: ChatMessage[]) {
     setLoading(true);
     clearInputArea();
-    let systemPrompt = getFirstValidString(
+    const systemPrompt = getFirstValidString(
       conversation?.systemPrompt,
       chatSettings?.instructions,
       userSettings.instructions,
       ChatConfig.defaultSystemPrompt,
       DEFAULT_INSTRUCTIONS
     );
-    let messages: ChatMessage[] = [
+    const messages: ChatMessage[] = [
       {
         role: Role.System,
         content: systemPrompt,
@@ -336,7 +338,7 @@ const ChatOverview = () => {
       ...updatedMessages,
     ];
 
-    let effectiveSettings = getEffectiveChatSettings();
+    const effectiveSettings = getEffectiveChatSettings();
 
     ChatService.sendMessageStreamed(
       effectiveSettings,
@@ -384,7 +386,7 @@ const ChatOverview = () => {
     fileDataRef: FileDataRef[],
     callback?: (callback: ChatMessage[]) => void
   ) => {
-    let content: string = message;
+    const content: string = message;
 
     setMessages((prevMessages: ChatMessage[]) => {
       const message: ChatMessage = {
@@ -434,42 +436,52 @@ const ChatOverview = () => {
   };
 
   return (
-    <>
-      {gid ? (
-        <div>
-          <ChatSettingDropdownMenu chatSetting={chatSettings} />
+    <Box
+      p={"md"}
+      style={{
+        backgroundColor: "white",
+      }}
+    >
+      <Container size={"xl"}>
+        {gid ? (
+          <div>
+            <ChatSettingDropdownMenu chatSetting={chatSettings} />
+          </div>
+        ) : null}
+        {!conversation && chatSettings ? (
+          <CustomChatSplash
+            className=" -translate-y-[10%] "
+            chatSettings={chatSettings}
+          />
+        ) : null}
+        <div
+          style={{ height: "55vh", display: "flex", flexDirection: "column" }}
+        >
+          <Chat
+            chatBlocks={messages}
+            onChatScroll={handleUserScroll}
+            conversation={conversation}
+            model={model?.id || DEFAULT_MODEL}
+            onModelChange={handleModelChange}
+            allowAutoScroll={allowAutoScroll}
+            loading={loading}
+          />
         </div>
-      ) : null}
-      {!conversation && chatSettings ? (
-        <CustomChatSplash
-          className=" -translate-y-[10%] "
-          chatSettings={chatSettings}
+        <MessageBox
+          ref={messageBoxRef}
+          callApp={callApp}
+          loading={loading}
+          setLoading={setLoading}
+          allowImageAttachment={
+            model === null || model?.image_support || false
+              ? "yes"
+              : !conversation
+              ? "warn"
+              : "no"
+          }
         />
-      ) : null}
-
-      <Chat
-        chatBlocks={messages}
-        onChatScroll={handleUserScroll}
-        conversation={conversation}
-        model={model?.id || DEFAULT_MODEL}
-        onModelChange={handleModelChange}
-        allowAutoScroll={allowAutoScroll}
-        loading={loading}
-      />
-      <MessageBox
-        ref={messageBoxRef}
-        callApp={callApp}
-        loading={loading}
-        setLoading={setLoading}
-        allowImageAttachment={
-          model === null || model?.image_support || false
-            ? "yes"
-            : !conversation
-            ? "warn"
-            : "no"
-        }
-      />
-    </>
+      </Container>
+    </Box>
   );
 };
 

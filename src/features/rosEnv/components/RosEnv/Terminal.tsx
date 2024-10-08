@@ -15,7 +15,9 @@ const Terminal = () => {
 
   // Establish the WebSocket connection
   useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_SOCKET_URL);
+    const newSocket = io(import.meta.env.VITE_SOCKET_URL, {
+      path: import.meta.env.VITE_SOCKET_PATH,
+    });
     setSocket(newSocket);
 
     return () => {

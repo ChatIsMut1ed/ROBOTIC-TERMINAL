@@ -85,6 +85,7 @@ const HomePage = () => {
       value: "logs",
       content: <></>,
       icon: null,
+      disabled: true,
     },
   ];
   const breadcrumbs = [

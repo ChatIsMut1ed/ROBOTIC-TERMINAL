@@ -25,26 +25,22 @@ const Chat: React.FC<Props> = ({
   chatBlocks,
   onChatScroll,
   allowAutoScroll,
-  model,
-  onModelChange,
   conversation,
   loading,
 }) => {
-  const { userSettings, setUserSettings } = useContext(UserContext);
+  const { userSettings } = useContext(UserContext);
   const [models, setModels] = useState<OpenAIModel[]>([]);
   const chatDivRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     ChatService.getModels()
-      .then((models) => {
-        setModels(models);
-      })
-      .catch((err) => {
+      .then((models) => setModels(models))
+      .catch((err) =>
         NotificationService.handleUnexpectedError(
           err,
           "Failed to get list of models"
-        );
-      });
+        )
+      );
   }, []);
 
   useEffect(() => {
@@ -59,48 +55,53 @@ const Chat: React.FC<Props> = ({
       const isAtBottom =
         chatContainer.scrollHeight - chatContainer.scrollTop ===
         chatContainer.clientHeight;
-
-      // Initially hide the button if chat is at the bottom
       onChatScroll(isAtBottom);
     }
   }, []);
+
+  const handleScroll = () => {
+    if (chatDivRef.current) {
+      const isAtBottom =
+        chatDivRef.current.scrollHeight - chatDivRef.current.scrollTop <=
+        chatDivRef.current.clientHeight + 20;
+      onChatScroll(isAtBottom);
+      if (!isAtBottom) onChatScroll(false);
+    }
+  };
 
   const findModelById = (id: string | null): OpenAIModel | undefined => {
     return models.find((model) => model.id === id);
   };
 
   const formatContextWindow = (context_window: number | undefined) => {
-    if (context_window) {
-      return Math.round(context_window / 1000) + "k";
-    }
-    return "?k";
-  };
-
-  const handleScroll = () => {
-    if (chatDivRef.current) {
-      const scrollThreshold = 20;
-      const isAtBottom =
-        chatDivRef.current.scrollHeight - chatDivRef.current.scrollTop <=
-        chatDivRef.current.clientHeight + scrollThreshold;
-
-      // Notify parent component about the auto-scroll status
-      onChatScroll(isAtBottom);
-
-      // Disable auto-scroll if the user scrolls up
-      if (!isAtBottom) {
-        onChatScroll(false);
-      }
-    }
+    return context_window ? `${Math.round(context_window / 1000)}k` : "?k";
   };
 
   return (
-    <div id={"chat-container"} ref={chatDivRef} onScroll={handleScroll}>
-      <div id={"chat-container1"}>
-        <div>
-          <div>
-            {!conversation ? (
-              ""
-            ) : (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+      }}
+    >
+      {/* Fixed section for model info */}
+      <div
+        style={{
+          padding: "0.5em 0",
+          border: "1px solid #000",
+          marginBottom: "5px",
+        }}
+      >
+        {conversation ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Tooltip
                 label={
                   conversation.systemPrompt ??
@@ -111,57 +112,108 @@ const Chat: React.FC<Props> = ({
               >
                 <span
                   style={{
+                    display: "flex",
+                    alignItems: "center",
                     marginLeft: "10px",
                     fontSize: "0.85rem",
                     color: "#6b7280",
+                    cursor: "pointer",
                   }}
                 >
                   <IconInfoCircle size={20} stroke={1.5} />
                 </span>
               </Tooltip>
-            )}
-            <span
+
+              <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
+                Model:
+              </span>
+              <span style={{ marginLeft: "0.5em", color: "#333" }}>
+                {/* {conversation.model} */}
+                OORB-CHAT
+              </span>
+              <div
+                style={{
+                  color: "#6b7280",
+                  fontSize: "0.85rem",
+                }}
+              >
+                {/* <Tooltip label="Context Window">
+                  <span style={{ marginLeft: "10px" }}>
+                    {formatContextWindow(
+                      findModelById(conversation.model)?.context_window
+                    )}
+                  </span>
+                </Tooltip> */}
+                <Tooltip label="Knowledge Cutoff">
+                  <span style={{ marginLeft: "15px" }}>
+                    {findModelById(conversation.model)?.knowledge_cutoff ??
+                      "N/A"}
+                  </span>
+                </Tooltip>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
                 alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              model
-              {conversation && (
-                <span>
-                  <span style={{ marginLeft: "0.25em" }}>
-                    {conversation.model}
-                  </span>
-                  <Tooltip label={"context-window"}>
-                    <span
-                      style={{
-                        marginLeft: "10px",
-                        fontSize: "0.85rem",
-                        color: "#6b7280",
-                      }}
-                    >
-                      {formatContextWindow(
-                        findModelById(conversation.model)?.context_window
-                      )}
-                    </span>
-                  </Tooltip>
-                  <Tooltip label={"knowledge-cutoff"}>
-                    <span
-                      style={{
-                        marginLeft: "10px",
-                        fontSize: "0.85rem",
-                        color: "#6b7280",
-                      }}
-                    >
-                      {findModelById(conversation.model)?.knowledge_cutoff}
-                    </span>
-                  </Tooltip>
+              <Tooltip label={"Start Chating"}>
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginLeft: "10px",
+                    fontSize: "0.85rem",
+                    color: "#6b7280",
+                    cursor: "pointer",
+                  }}
+                >
+                  <IconInfoCircle size={20} stroke={1.5} />
                 </span>
-              )}
-            </span>
-          </div>
-        </div>
+              </Tooltip>
+
+              <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
+                Model:
+              </span>
+              <span style={{ marginLeft: "0.5em", color: "#333" }}>
+                OORB-CHAT
+              </span>
+              <div
+                style={{
+                  color: "#6b7280",
+                  fontSize: "0.85rem",
+                }}
+              >
+                {/* <Tooltip label="Context Window">
+                  <span style={{ marginLeft: "10px" }}>128K</span>
+                </Tooltip> */}
+                <Tooltip label="Knowledge Cutoff">
+                  <span style={{ marginLeft: "15px" }}>
+                    {new Date().toJSON().slice(0, 10)}
+                  </span>
+                </Tooltip>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Scrollable chat content */}
+      <div
+        id="chat-container"
+        ref={chatDivRef}
+        onScroll={handleScroll}
+        style={{
+          flexGrow: 1,
+          overflowY: "auto", // Chat content scrolls independently
+          padding: "1em",
+        }}
+      >
         {chatBlocks.map((block, index) => (
           <ChatBlock
             key={`chat-block-${block.id}`}
@@ -170,7 +222,7 @@ const Chat: React.FC<Props> = ({
             isLastBlock={index === chatBlocks.length - 1}
           />
         ))}
-        <div className="w-full h-24 flex-shrink-0"></div>
+        <div></div>
       </div>
     </div>
   );
