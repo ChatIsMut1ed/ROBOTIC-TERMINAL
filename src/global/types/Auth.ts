@@ -1,13 +1,20 @@
-import { Role } from "../enums/Role";
-
 export type User = {
   id: string;
-  first_name: string;
-  last_name: string;
   email: string;
-  role: Role | string;
-  profile: string;
-  phone_number: string;
+  username: string;
+  organization_id: string;
+  token: string;
+};
+
+export type LoginForm = {
+  username: string;
+  password: string;
+};
+
+export type RegisterForm = {
+  username: string;
+  email: string;
+  password: string;
 };
 
 export type AuthState = {

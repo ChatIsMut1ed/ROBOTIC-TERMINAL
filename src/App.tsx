@@ -6,8 +6,10 @@ import useScrollToTop from "./global/hooks/useScrollToTop";
 import routes from "./routes/app.routes";
 import AuthLayout from "./components/layouts/AuthLayout";
 import GuestLayout from "./components/layouts/GuestLayout";
+import useAxiosInterceptors from "./global/hooks/useAxiosInterceptors";
 
 export default function App() {
+  useAxiosInterceptors();
   useScrollToTop();
   const { authState } = useAuth();
 

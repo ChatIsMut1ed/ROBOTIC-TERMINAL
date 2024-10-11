@@ -1,18 +1,15 @@
 import { Reducer } from "react";
 import { AuthAction, AuthActionType } from "./actions";
 import { AuthState } from "@/global/types/Auth";
-import { Role } from "@/global/enums/Role";
 
 export const defaultAuthState: AuthState = {
   isLoggedIn: false,
   user: {
     id: "",
-    first_name: "",
-    last_name: "",
     email: "",
-    role: Role.CLIENT,
-    profile: "",
-    phone_number: "",
+    organization_id: "",
+    token: "",
+    username: "",
   },
   accessToken: "",
 };

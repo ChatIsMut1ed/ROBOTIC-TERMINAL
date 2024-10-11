@@ -191,7 +191,7 @@ const AppHeader = () => {
           ) : (
             <Group gap={"md"}>
               <Text size="sm" fw={"bold"}>
-                !Hi,{`${user?.first_name} ${user?.last_name}`}
+                !Hi,{`${user?.username}`}
               </Text>
               <Button
                 className={classes.signupBtn}
