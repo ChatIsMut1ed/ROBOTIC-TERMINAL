@@ -57,7 +57,7 @@ const Login = () => {
         email: res?.data?.user?.email,
         username: res?.data?.user?.username,
         organization_id: res?.data?.user?.organization_id,
-        token: res?.data?.token,
+        token: res?.data?.user?.token,
       });
     } catch (error: any) {
       if (error.response && error.response.data) {
@@ -83,6 +83,7 @@ const Login = () => {
       if (error.response && error.response.data) {
         const errorsObject = error.response.data;
         setFormRegisterErrors(errorsObject);
+        console.log(errorsObject);
       } else {
         console.error("Error occurred without response data:", error);
       }
@@ -159,9 +160,9 @@ const Login = () => {
               {/* Conditionally render forms based on activeForm state */}
               {activeForm === "signup" ? (
                 <form onSubmit={handleRegisterSubmit}>
-                  {formErrors && (
+                  {formRegisterErrors && (
                     <Text mb="md" c={"red"} size="sm" fw={"bold"} ta={"center"}>
-                      {formErrors}
+                      {formRegisterErrors}
                     </Text>
                   )}
                   <Stack mt={"md"}>
